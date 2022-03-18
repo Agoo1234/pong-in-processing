@@ -25,6 +25,7 @@ class Ball {
   public float getRadius() { return radius; }
   public PVector getVector() { return vector; }
   public void setVector(PVector vector) { this.vector = vector; }
+  public float getSlope() { return ((getY() + vector.y) - getY()) / ((getX() + vector.x) - getX()); }
   
   public float distance(Ball other) {
     return (float) Math.sqrt(square(getX()-other.getX()) + square(getY()-other.getY()));
@@ -45,7 +46,11 @@ class Ball {
 // TODO: intersectsPaddle(Paddle paddle)
   // Return true if the ball is touching the specified paddle
   public boolean intersectsPaddle(Paddle paddle) {
-    return getX() <= paddle.getX()+paddle.getWidth()/2 && getX() >= paddle.getX()-paddle.getWidth()/2 && getY() <= paddle.getY()+paddle.getHeight()/2 && getY() >= paddle.getY()-paddle.getHeight()/2;
+    boolean x1 = getX() - getRadius() <= paddle.getX()+paddle.getWidth()/2&& getX() - getRadius() >= paddle.getX()-paddle.getWidth()/2;
+    boolean x2 = getX() + getRadius() <= paddle.getX()+paddle.getWidth()/2 && getX() + getRadius() >= paddle.getX()-paddle.getWidth()/2;
+    boolean y1 = getY() - getRadius() <= paddle.getY()+paddle.getHeight()/2 && getY() - getRadius() >= paddle.getY()-paddle.getHeight()/2;
+    boolean y2 = getY() + getRadius() <= paddle.getY()+paddle.getHeight()/2 && getY() + getRadius() >= paddle.getY()-paddle.getHeight()/2;
+    return (x1 || x2) && (y1 || y2);
   }
     
 // TODO: move()
@@ -58,8 +63,14 @@ class Ball {
     // If the ball is in play, then it needs to change direction if it hits
     // a paddle...
     if (intersectsPaddle(computer) || intersectsPaddle(player)) {
-      PVector newvector = new PVector(-getVector().x , -getVector().y);
-      setVector(newvector);
+      //PVector newvector = new PVector(-getVector().x , -getVector().y);
+      //setVector(newvector);
+      Paddle hitPaddle = (intersectsPaddle(computer)) ? computer : player;
+      //vector.set(-vector.x, -getVector().y + hitPaddle.hitFactor());
+      float paddleCenter = hitPaddle.getY() + (hitPaddle.getHeight()/2);
+      float d = paddleCenter - getY();
+      vector.set(-vector.x, vector.y + d*-0.1);
+
     }
     
     // ...or if it hits the top or bottom wall
