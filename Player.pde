@@ -3,8 +3,8 @@
 // * move()
 
 class Player extends Paddle {
-  public Player(float x, float y, float w, float h, PVector vector, color c) {
-    super(x, y, w, h, vector, c);
+  public Player(float x, float y, float w, float h, PVector vector, color c, boolean computer) {
+    super(x, y, w, h, vector, c, computer);
   }
 
 // TODO: move()
@@ -18,8 +18,8 @@ class Player extends Paddle {
 //       2B. Set the y-coordinate so that the edge of the paddle is touching the wall
   public void move() {
     if (intersectsHorizontal()) {
-      if (getY() > 0) setY(getY()-5);
-      else setY(getY()+5);
+      if (getY() > 0) setY(getY()-PADDLE_SPEED);
+      else setY(getY()+PADDLE_SPEED);
     }
     setY(getY() + getVector().y);
   }

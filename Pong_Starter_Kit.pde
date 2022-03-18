@@ -1,4 +1,4 @@
-// In this tab, you must write code in:
+`// In this tab, you must write code in:
 //
 // * showScores()
 // * updateScores()
@@ -12,29 +12,32 @@ Player player;
 enum GAME_STATE { IN_PLAY, NO_PLAY, BEFORE_GAME, GAME_OVER };
 GAME_STATE state = GAME_STATE.BEFORE_GAME;  // Keeps track of state of game
 PVector NO_MOVE = new PVector(0, 0);
+int PADDLE_SPEED = 3;
+int BALL_SPEED = 7;
 final int POINTS_NEEDED_TO_WIN = 5;
 PFont font;
 PFont gameOverFont;
+
 
 int debuggingCounter = 0;
 final int DEBUGGING_TICKS = 100;
 
 void setup() {
-  size(1024, 768);
+  //size(1024, 768);
+  size(displayWidth, displayHeight);
   ellipseMode(RADIUS);
-  
-  computer = new Paddle(width/2 - 100, 0, 9, height/5, new PVector(0, 3), color(#000000));
-  player = new Player(-width/2 + 100, 0, 9, height/5, NO_MOVE, color(#000000));
+  computer = new Paddle(width/2 - 100, 0, 9, height/5, new PVector(0,0), color(#ffffff), true);
+  player = new Player(-width/2 + 100, 0, 9, height/5, NO_MOVE, color(#ffffff), false);
 
   // For scoring
-  font = createFont("Courier", 72);
-  gameOverFont = createFont("Courier", 256);
+  font = createFont("bit5x3.ttf", 72);
+  gameOverFont = createFont("bit5x3.ttf", 100);
   textFont(font);
   textAlign(CENTER, CENTER);  // Specify center of where text should be printed
 }
 
 void draw() {
-  background(#ffffff);
+  background(#000000);
   // Translation removed because there is a fair amount of text that is easier
   // to draw if the origin is at top left
   //translate(width/2, height/2);
@@ -44,6 +47,14 @@ void draw() {
     printState();
     System.out.println(ball);
   }
+  for (int i = 0; i < height/5; i++) {
+      if (i%2 == 0) {
+        fill(255);
+      } else {
+        fill(0);
+      }
+      rect(width/2, i*8, 6, 8);
+    }
   showScores();  
   moveObjects();
   drawObjects();
@@ -70,6 +81,7 @@ public void showScores() {
   updateScores();
   
   // show scores instead of "hi"
+  fill(#ffffff);
   text(player.getScore(), 200, 50); 
   text(computer.getScore(), width - 200, 50); 
   
@@ -77,8 +89,8 @@ public void showScores() {
   // (Changing the game state to indicate that the game is over is handled in
   // updateScores(), below; you just need to check the game state and display text
   if (state == GAME_STATE.GAME_OVER) {
+      fill(#ffffff);
       textFont(gameOverFont);
-      textSize(128);
       text("GAME OVER", width/2, height/2);
       textSize(64);
       if(player.getScore() > computer.getScore()) text("YOU WIN", width/2, height/2 + 100);

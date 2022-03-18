@@ -1,3 +1,4 @@
+
 // In this tab, DO NOT CHANGE ANY CODE
 //
 // UP and DOWN arrow keys are used to move the player's paddle
@@ -9,15 +10,19 @@
 void keyPressed() {
   if (key == CODED) {
     if (keyCode == UP) {
-      player.setVerticalSpeed(-3);
+      player.setVerticalSpeed(-PADDLE_SPEED);
     } else if (keyCode == DOWN) {
-      player.setVerticalSpeed(3);
+      player.setVerticalSpeed(PADDLE_SPEED);
     }
   } else if (key == ' ') {
     if (state != GAME_STATE.IN_PLAY) {
       if (state == GAME_STATE.GAME_OVER) {
         computer.setScore(0);
         player.setScore(0);
+        computer.setY(0);
+        player.setY(0);
+        PADDLE_SPEED = 3;
+        BALL_SPEED = 7;
       }
       ball = new Ball(0, 
                       random(-height/2 + 100, 
@@ -28,6 +33,7 @@ void keyPressed() {
       state = GAME_STATE.IN_PLAY;
     }
   }
+  
 }
 
 void keyReleased() {
@@ -35,5 +41,7 @@ void keyReleased() {
     if (keyCode == UP || keyCode == DOWN) {
        player.setVerticalSpeed(0);
      }
-  }
+    regKey(""+keyCode);
+    }
+  else regKey("" + key);
 }
