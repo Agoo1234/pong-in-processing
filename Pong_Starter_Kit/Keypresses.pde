@@ -21,6 +21,8 @@ void keyPressed() {
         player.setScore(0);
         computer.setY(0);
         player.setY(0);
+        player.setComputer(false);
+        player.setHeight(height/8);
         PADDLE_SPEED = 3;
         BALL_SPEED = 7;
       }

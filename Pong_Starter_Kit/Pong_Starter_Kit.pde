@@ -12,11 +12,12 @@ Player player;
 enum GAME_STATE { IN_PLAY, NO_PLAY, BEFORE_GAME, GAME_OVER };
 GAME_STATE state = GAME_STATE.BEFORE_GAME;  // Keeps track of state of game
 PVector NO_MOVE = new PVector(0, 0);
-int PADDLE_SPEED = 3;
-int BALL_SPEED = 7;
-final int POINTS_NEEDED_TO_WIN = 5;
+int PADDLE_SPEED = 7;
+int BALL_SPEED = 8;
+final int POINTS_NEEDED_TO_WIN = 10;
 PFont font;
 PFont gameOverFont;
+int WHEREBALL = 0;
 
 
 int debuggingCounter = 0;
@@ -26,8 +27,8 @@ void setup() {
   //size(1024, 768);
   size(displayWidth, displayHeight);
   ellipseMode(RADIUS);
-  computer = new Paddle(width/2 - 100, 0, 9, height/5, new PVector(0,0), color(#ffffff), true);
-  player = new Player(-width/2 + 100, 0, 9, height/5, NO_MOVE, color(#ffffff), false);
+  computer = new Paddle(width/2 - 100, 0, 15, height/8, new PVector(0,0), color(#ffffff), true);
+  player = new Player(-width/2 + 100, 0, 15, height/8, NO_MOVE, color(#ffffff), false);
 
   // For scoring
   font = createFont("bit5x3.ttf", 72);
@@ -94,7 +95,7 @@ public void showScores() {
       text("GAME OVER", width/2, height/2);
       textSize(64);
       if(player.getScore() > computer.getScore()) text("YOU WIN", width/2, height/2 + 100);
-      else text("COMPUTER WIN", width/2, height/2 + 100);
+      else text("COMPUTER WINS", width/2, height/2 + 100);
    }
   // YOUR CODE HERE
 }
@@ -113,6 +114,7 @@ public void updateScores() {
   if (ball.intersectsVertical()) {
   state = GAME_STATE.NO_PLAY;
   if (ball.getX() < CENTER) {
+    WHEREBALL++;
     computer.setScore(computer.getScore() + 1);
     if (computer.getScore() != POINTS_NEEDED_TO_WIN) {
       state = GAME_STATE.IN_PLAY;
@@ -120,9 +122,11 @@ public void updateScores() {
     }
     else {
       state = GAME_STATE.GAME_OVER;
+      WHEREBALL = 0;
     }
   }
   else if (ball.getX() >= CENTER){
+    WHEREBALL++;
     player.setScore(player.getScore() + 1);
     if (player.getScore() != POINTS_NEEDED_TO_WIN) {
       state = GAME_STATE.IN_PLAY;
@@ -130,6 +134,7 @@ public void updateScores() {
     }
     else {
       state = GAME_STATE.GAME_OVER;
+      WHEREBALL = 0;
     }
   }
   ball.setX(0);

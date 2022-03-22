@@ -23,6 +23,7 @@ class Paddle {
   public float getY() { return y; }
   public float getWidth() { return w; }
   public float getHeight() { return h; }
+  public void setHeight(float n) { this.h = n; }
   public void setX(float x) { this.x = x; }
   public void setY(float y) { this.y = y; }
   public PVector getVector() { return vector; }
@@ -31,6 +32,7 @@ class Paddle {
   public void setScore(int score) { this.score = score; }
   public void scorePoint() { score++; }
   public boolean isComputer() { return computer; }
+  public void setComputer(boolean torf) { this.computer = torf; }
   
   public boolean intersectsHorizontal() {
     return (getY()+getHeight()/2 >= height/2) ||
