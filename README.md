@@ -1,3 +1,7 @@
 # a simple pong game i made in processing
 
-has some cheat codes for you to figure out
+just an easy school assignment
+cheat codes are a thing
+
+has a very basic ai.
+
