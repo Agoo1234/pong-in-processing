@@ -1,7 +1,6 @@
 # a simple pong game i made in processing
 
-just an easy school assignment
-cheat codes are a thing
+an easy school assignment made slightly less boring
 
-has a very basic computer that plays against you
+featuring cheat codes and a bot that'll play against you
 
